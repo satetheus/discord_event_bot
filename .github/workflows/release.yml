@@ -17,7 +17,7 @@ jobs:
       with:
         version: 0.15.0
     - name: build cargo lambda
-    - run: cargo lambda build
+      run: cargo lambda build
     - name: default deploy
       if: github.ref == 'refs/heads/main'
       uses: appleboy/lambda-action@master
