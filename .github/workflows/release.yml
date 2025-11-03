@@ -35,7 +35,7 @@ jobs:
       - name: Release lambda
         run: |
           pip install cargo-lambda
-          cargo lambda build --release
+          cargo lambda build --compiler cargo --release
           cargo lambda deploy discord_event_bot
         env:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
