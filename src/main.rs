@@ -7,12 +7,17 @@ use serde_json::Value;
 #[derive(Debug, Deserialize, Serialize)]
 struct Message {
     message: String,
+    url: Option<String>,
 }
 
 async fn function_handler(event: LambdaEvent<Value>) -> Result<String, Error> {
     let payload: Message = serde_json::from_value(event.payload)?;
 
-    let url = env::var("ANNOUNCEMENTS_HOOK")?;
+    let url = match payload.url {
+        Some(n) => n,
+        None => env::var("ANNOUNCEMENTS_HOOK")?
+    };
+
     let client = reqwest::Client::new();
     let params = [("content", payload.message)];
 
