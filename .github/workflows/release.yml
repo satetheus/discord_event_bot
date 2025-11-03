@@ -1,4 +1,4 @@
-name: deploy-dummy-lambda
+name: deploy-lambda
 on:
   push:
     branches:
@@ -11,7 +11,7 @@ jobs:
     - name: Deploy code to Lambda
       uses: qxf2/rust-lambda-action@v1.0.1
       with:
-        lambda_directory: 'discord_event_bot'
+        lambda_directory: '.'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
