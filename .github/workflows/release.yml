@@ -19,7 +19,9 @@ jobs:
           override: true
 
       - name: update cargo
-        run: cargo update
+        run: |
+          sudo apt-get install libssl-dev
+          cargo update
 
       - name: Cache cargo registry
         uses: actions/cache@v3
