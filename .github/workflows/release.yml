@@ -8,10 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Install Rust toolchain
+      uses: moonrepo/setup-rust@v1
+      with:
+        bins: cargo-lambda
+    - name: Install Zig toolchain
+      uses: mlugg/setup-zig@v1
+      with:
+        version: 0.16.0
     - name: Deploy code to Lambda
       uses: qxf2/rust-lambda-action@v1.0.1
       with:
         lambda_directory: '.'
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
