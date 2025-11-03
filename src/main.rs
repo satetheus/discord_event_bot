@@ -1,17 +1,29 @@
 use std::env;
-use std::error::Error;
-use reqwest;
 
+use lambda_runtime::{Error, LambdaEvent, run, service_fn};
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
 
-fn main() -> Result<(), Box<dyn Error>> {
+#[derive(Debug, Deserialize, Serialize)]
+struct Message {
+    message: String,
+}
+
+async fn function_handler(event: LambdaEvent<Value>) -> Result<String, Error> {
+    let payload: Message = serde_json::from_value(event.payload)?;
+
     let url = env::var("ANNOUNCEMENTS_HOOK")?;
-    let client = reqwest::blocking::Client::new();
-    let params = [("content", "test")];
+    let client = reqwest::Client::new();
+    let params = [("content", payload.message)];
 
-    let res = client.post(url)
-        .form(&params)
-        .send()?;
+    let _res = client.post(url).form(&params).send().await?;
 
-    println!("{:#?}", res);
+    Ok("Success".to_string())
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    let _ = run(service_fn(function_handler)).await;
+
     Ok(())
 }
