@@ -12,10 +12,6 @@ jobs:
       uses: moonrepo/setup-rust@v1
       with:
         bins: cargo-lambda
-    - name: Install Zig toolchain
-      uses: mlugg/setup-zig@v1
-      with:
-        version: 0.16.0
     - name: Deploy code to Lambda
       uses: qxf2/rust-lambda-action@v1.0.1
       with:
